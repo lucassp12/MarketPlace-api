@@ -1,17 +1,6 @@
 const User = require("../models/User");
 
 class UserController {
-  async store(req, res) {
-    const { email } = req.body;
-
-    if (await User.findOne({ email })) {
-      return res.status(400).json({ error: "User already exists" });
-    }
-
-    const user = await User.create(req.body);
-
-    return res.json(user);
-  }
   async index(req, res) {
     const user = await User.find();
     return res.json(user);
@@ -28,17 +17,18 @@ class UserController {
 
     return res.json(user);
   }
-  async destroy(req, res) {
-    const { id } = req.params.id;
+  async store(req, res) {
+    const { email } = req.body;
 
-    if (!(await User.findOne({ id }))) {
-      return res.status(400).json({ error: "Id invalid" });
+    if (await User.findOne({ email })) {
+      return res.status(400).json({ error: "User already exists" });
     }
 
-    await User.findOneAndRemove({ id });
+    const user = await User.create(req.body);
 
-    return res.json({ menssage: "Sucess" });
+    return res.json(user);
   }
+
   async update(req, res) {
     const { id } = req.params.id;
 
@@ -51,6 +41,17 @@ class UserController {
     });
 
     return res.json(user);
+  }
+  async destroy(req, res) {
+    const { id } = req.params.id;
+
+    if (!(await User.findOne({ id }))) {
+      return res.status(400).json({ error: "Id invalid" });
+    }
+
+    await User.findOneAndRemove({ id });
+
+    return res.json({ menssage: "Sucess" });
   }
 }
 
