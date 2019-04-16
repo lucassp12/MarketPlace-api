@@ -7,9 +7,14 @@ class UserController {
   }
 
   async show(req, res) {
-    const user = await User.findById(req.params.id);
+    try {
+      const user = await User.findById(req.params.id);
 
-    return res.json(user);
+      if (user) {
+        return res.json(user);
+      }
+    } catch (err) {}
+    return res.status(400).json({ error: "Id invalid" });
   }
   async store(req, res) {
     const { email } = req.body;
