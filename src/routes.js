@@ -55,5 +55,10 @@ routes.post(
   validate(validators.Purchase),
   handle(controllers.PurchaseController.store)
 );
+routes.get("/purchases", handle(controllers.PurchaseController.index));
+
+//Aceppt
+
+routes.put("/aceppt/:id", handle(controllers.AcepptController.update));
 
 module.exports = routes;
