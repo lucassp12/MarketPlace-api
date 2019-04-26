@@ -6,9 +6,15 @@ const Queue = require("../services/Queue");
 
 class PurchaseController {
   async index(req, res) {
-    const purchase = await Purchase.find();
+    const filters = {};
 
-    return res.json(purchase);
+    const purchases = await Purchase.paginate(filters, {
+      page: req.query.page || 1,
+      limit: 20,
+      sort: "-createdAt"
+    });
+
+    return res.json(purchases);
   }
   async store(req, res) {
     const { ad, content } = req.body;
