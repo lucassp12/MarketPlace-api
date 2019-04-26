@@ -7,6 +7,6 @@ const Queue = kue.createQueue({ redis: redisConfig });
 
 Queue.process(jobs.PurchaseMail.key, jobs.PurchaseMail.handle);
 
-Queue.ob("error", Sentry.captureException);
+Queue.on("error", Sentry.captureException);
 
 module.exports = Queue;
